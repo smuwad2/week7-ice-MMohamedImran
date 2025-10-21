@@ -2,6 +2,19 @@
     export default { 
         // Add Code Here to complete the task
         // Note: DO NOT USE "eval()". In security, "eval" is considered "evil"!!!
+        data(){
+            return{
+                x: "",
+                y: "",
+                operators: ["+", "-", "*", "/", "%"],
+                selectedOp: ""
+        }
+    },
+    computed: {
+        result(){
+            return this.x + this.selectedOp + this.y
+        }
+    }
     }
 </script>
 
