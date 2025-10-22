@@ -6,7 +6,7 @@ import axios from 'axios';
        // add code here
        data(){
         return{
-            moods:['happy','sad','angry'],
+            moods:['Happy','Sad','Angry'],
             subject:'',
             entry:'',
             selMood:'',
@@ -62,7 +62,7 @@ import axios from 'axios';
         Mood:
         <!-- TODO: Build a dropdown list here for selecting the mood -->
        <select name="listt" id="listt" v-model="selMood">
-  <option v-for="mood in moods">{{ mood }}</option>
+  <option v-for="mood in moods" :value="mood">{{ mood }}</option>
         </select>
         <br>
 
