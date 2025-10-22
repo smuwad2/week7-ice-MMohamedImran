@@ -12,7 +12,29 @@
     },
     computed: {
         result(){
-            return this.x + this.selectedOp + this.y
+            if (this.selectedOp=="+"){
+            return this.x + this.y}
+
+            if (this.selectedOp=="-"){
+            return this.x - this.y}    
+            
+            if (this.selectedOp=="*"){
+            return this.x * this.y}  
+            
+            if (this.selectedOp=="/"){
+            return this.x / this.y}           
+            
+            if (this.selectedOp=="%"){
+            return this.x % this.y} 
+            
+            //or use this
+            // switch(this.selectedOp){
+            //     case "+": return this.x + this.y
+            //     case "-": return this.x - this.y
+            //     case "*": return this.x * this.y
+            //     case "/": return this.x / this.y
+            //     case "%": return this.x % this.y
+            // }
         }
     }
     }
