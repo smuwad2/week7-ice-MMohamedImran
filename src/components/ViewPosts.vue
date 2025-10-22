@@ -36,13 +36,66 @@ export default {
     },
     methods: {
         editPost(id) {
+            this.showEditPost=true
+
+            
+  const post = this.posts.find(p => p.id === id) // find the post
+  if (post) {
+    this.editPostId = id
+    this.entry = post.entry
+    this.mood = post.mood
+    this.showEditPost = true
+  
+}
+
             
         },
         updatePost(event) {
-            
+            // axios.post(`${this.baseUrl}/posts`)
+            // .then(response => {
+            //     // this posts the data, which is an array, and pass the data to Vue instance's posts property
+            //     this.posts = response.data
+            // })
+            // .catch(error => {
+            //     this.posts = [{ entry: 'There was an error: ' + error.message }]
+            // })
+            // this.showEditPost=false
+
+           
+  event.preventDefault(); // prevent page refresh
+
+  const updatedPost = {
+    id: this.editPostId,
+    entry: this.entry,
+    mood: this.mood
+  };
+
+  // Use PUT or POST depending on your backend setup
+  axios.put(`${this.baseUrl}/posts/${this.editPostId}`, updatedPost)
+    .then(response => {
+      // Option 1: backend returns all posts
+      this.posts = response.data;
+
+      // Option 2: backend returns only the updated post
+      // find it in current list and replace it
+      const index = this.posts.findIndex(p => p.id === this.editPostId);
+      if (index !== -1) {
+        this.posts.splice(index, 1, response.data);
+      }
+
+      this.showEditPost = false;
+      this.entry = '';
+      this.mood = '';
+      this.editPostId = '';
+    })
+    .catch(error => {
+      console.error(error);
+      this.posts = [{ entry: 'There was an error: ' + error.message }];
+    });
+}
+
         }
     }
-}
 </script>
 
 <template>
@@ -61,7 +114,7 @@ export default {
                     <td>{{ post.id }}</td>
                     <td>{{ post.entry }}</td>
                     <td>{{ post.mood }}</td>
-                    <td><button>Edit</button></td>
+                    <td><button v-on:click="editPost(post.id)">Edit</button></td>
                 </tr>
             </tbody>
 
@@ -82,7 +135,7 @@ export default {
                             <option v-for="mood in moods" :value="mood">{{ mood }}</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Post</button>
+                    <button type="submit" class="btn btn-primary" v-on:click="updatePost(event)">Update Post</button>
                 </form>
             </div>
         </div>
